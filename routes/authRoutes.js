@@ -8,7 +8,13 @@ module.exports = app => {
     })
   );
 
-  app.get("/auth/google/callback", passport.authenticate("google"));
+  app.get(
+    "/auth/google/callback",
+    passport.authenticate("google"),
+    (req, res) => {
+      res.redirect("/surverys");
+    }
+  );
 
   app.get("/api/logout", (req, res) => {
     //this function is added by passport on the req object
