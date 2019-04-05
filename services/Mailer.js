@@ -15,7 +15,18 @@ class Mailer {
           type: "text/html",
           value: content
         }
-      ]
+      ],
+      trackingSettings: {
+        clickTracking: {
+          enable: true
+        },
+        openTracking: {
+          enable: true
+        },
+        subscriptionTracking: {
+          enable: true
+        }
+      }
     };
   }
 
