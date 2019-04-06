@@ -19,11 +19,12 @@ export const handleToken = token => async dispatch => {
   }
 };
 
-export const submitSurvey = values => async dispatch => {
+export const submitSurvey = (values, history) => async dispatch => {
   try {
     const response = await axios.post("/api/surveys", values);
 
     dispatch({ type: FETCH_USER, payload: response.data });
+    history.push("/surveys");
   } catch (e) {
     console.log("error on creating survey", e);
   }
