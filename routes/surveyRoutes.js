@@ -46,7 +46,7 @@ module.exports = app => {
 
   app.post("/api/surveys/webhooks", (req, res) => {
     const p = new Path("/api/surveys/:surveyId/:choice");
-    const events = _.chain(req.body)
+    _.chain(req.body)
       .map(({ email, url }) => {
         //Extract the path from the url
         const pathname = new URL(url).pathname;
@@ -58,8 +58,25 @@ module.exports = app => {
           return { ...match, email };
         }
       })
-      .compact()
-      .uniqBy("email", "surveyId")
+      .compact() //Remove undefined elements
+      .uniqBy("email", "surveyId") //remove duplicates
+      .each(({ surveyId, email, choice }) => {
+        Survey.updateOne(
+          {
+            _id: surveyId,
+            recipients: {
+              $elemMatch: {
+                email: email,
+                responded: false
+              }
+            }
+          },
+          {
+            $inc: { [choice]: 1 },
+            $set: { "recipients.$.responded": true }
+          }
+        ).exec();
+      })
       .value();
     console.log(events);
     res.send({});
