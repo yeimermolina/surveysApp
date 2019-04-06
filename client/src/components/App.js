@@ -15,16 +15,16 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
-        <BrowserRouter>
+      <BrowserRouter>
+        <div className="container">
           <Header auth={this.props.auth} />
           <main>
             <Route exact path="/surveys" component={Dashboard} />
             <Route exact path="/surveys/new" component={SurveyNew} />
             <Route exact path="/" component={Landing} />
           </main>
-        </BrowserRouter>
-      </div>
+        </div>
+      </BrowserRouter>
     );
   }
 }
