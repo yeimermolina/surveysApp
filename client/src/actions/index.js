@@ -18,3 +18,13 @@ export const handleToken = token => async dispatch => {
     console.log("error on handling stripe token", e);
   }
 };
+
+export const submitSurvey = values => async dispatch => {
+  try {
+    const response = await axios.post("/api/surveys", values);
+
+    dispatch({ type: FETCH_USER, payload: response.data });
+  } catch (e) {
+    console.log("error on creating survey", e);
+  }
+};
